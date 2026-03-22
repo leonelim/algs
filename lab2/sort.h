@@ -1,0 +1,7 @@
+#ifndef SORT_H
+#define SORT_H
+
+void selection_sort(int arr[], int size);
+void shell_sort(int arr[], int size);
+
+#endif

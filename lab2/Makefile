@@ -1,5 +1,5 @@
 all:
-	cc main.c sort.c ll.c -o main
+	cc search_test.c sort.c linked_list.c search.c -o search_test
 clean:
-	rm main
+	rm search_test
 .PHONY: all clean

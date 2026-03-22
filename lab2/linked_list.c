@@ -2,16 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ll.h"
+#include "linked_list.h"
 
-Node *init_linked_list() {
+Node *linked_list_init(int x) {
   Node *node = malloc(sizeof(Node));
-  node->payload = 0;
+  node->payload = x;
   node->next = NULL;
   return node;
 }
 
-void append_linked_list(Node *node, int x) {
+void linked_list_add(Node *node, int x) {
   Node *new_node = malloc(sizeof(Node));
   while (node->next != NULL) {
     node = node->next;
@@ -21,20 +21,9 @@ void append_linked_list(Node *node, int x) {
   node->next = new_node;
 }
 
-Node *search_linked_list(Node *node, int x) {
-  while (node != NULL) {
-    if (node->payload == x) {
-      return node;
-    }
-    node = node->next;
-  }
-  return NULL;
-}
-
-void print_linked_list(Node *node) {
-  while (node != NULL) {
+void linked_list_print(Node *node) {
+  for (; node != NULL; node = node->next) {
     printf("%d ", node->payload);
-    node = node->next;
   }
   putchar('\n');
 }

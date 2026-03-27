@@ -4,61 +4,74 @@
 #include <stdlib.h>
 
 int main() {
-  Node *tree = bst_insert(NULL, 2);
-  bst_insert(tree, 1);
-  bst_insert(tree, 3);
-  bst_insert(tree, 4);
-  inorder(tree, &print_key);
+  Node *tree = insert_node(NULL, 2);
+  insert_node(tree, 1);
+  insert_node(tree, 3);
+  insert_node(tree, 4);
+  puts("postorder:");
+  postorder(tree);
   puts("");
-  preorder(tree, &print_key);
+  puts("preorder:");
+  preorder(tree);
   puts("");
-  postorder(tree, &print_key);
-  puts("");
-  bst_delete(tree, 4);
-  preorder(tree, &print_key);
-  puts("");
-  bst_delete(tree, 3);
-  preorder(tree, &print_key);
-  puts("");
-  bst_delete(tree, 1);
-  preorder(tree, &print_key);
-  puts("");
-  free_tree(tree);
-  tree = bst_insert(NULL, 0);
-  for (int i = 1; i < 5; ++i) {
-    bst_insert(tree, i);
-  }
-  puts("ijdwaiad");
-  inorder(tree, &print_key);
-  puts("");
-  preorder(tree, &print_key);
-  puts("");
-  postorder(tree, &print_key);
+  puts("inorder:");
+  inorder(tree);
   puts("");
 
+  delete_node(tree, 4);
+  puts("preorder after delete:");
+  preorder(tree);
+  puts("");
+  delete_node(tree, 3);
+  puts("preorder after delete:");
+  preorder(tree);
+  puts("");
+  delete_node(tree, 1);
+  puts("preorder after delete:");
+  preorder(tree);
+  puts("");
   free_tree(tree);
+  tree = insert_node(NULL, 0);
+  for (int i = 1; i < 5; ++i) {
+    insert_node(tree, i);
+  }
+  puts("degenerate tree:");
+  puts("postorder:");
+  postorder(tree);
+  puts("");
+  puts("preorder:");
+  preorder(tree);
+  puts("");
+  puts("inorder:");
+  inorder(tree);
+  puts("");
+  free_tree(tree);
+
   tree = build_perfectly_balanced_tree(6);
-  preorder(tree, &print_key);
+  puts("preorder:");
+  preorder(tree);
   puts("");
-  inorder(tree, &print_key);
+  puts("inorder:");
+  inorder(tree);
   puts("");
-  bst_insert(tree, 7);
-  bst_insert(tree, 8);
-  preorder(tree, &print_key);
+  insert_node(tree, 7);
+  insert_node(tree, 8);
+  puts("preorder:");
+  preorder(tree);
   puts("");
 
   Node *node = search_node(tree, 7);
   if (node != NULL) {
-    print_key(node->payload);
+    printf("%d found in the tree\n", node->payload);
   } else {
-    puts("NULL");
+    printf("%d not found in the tree\n", 7);
   }
 
   node = search_node(tree, 9);
   if (node != NULL) {
-    print_key(node->payload);
+    printf("%d found in the tree\n", node->payload);
   } else {
-    puts("NULL");
+    printf("%d not found in the tree\n", 9);
   }
 
   return 0;

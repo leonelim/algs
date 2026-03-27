@@ -10,15 +10,6 @@ Node *create_node(int x) {
   return node;
 }
 
-Node *delete_node(Node *node) {
-  if (node != NULL) {
-    free(node);
-    delete_node(node->left);
-    delete_node(node->right);
-  }
-  return NULL;
-}
-
 Node *search_node(Node *tree, int x) {
   while (tree != NULL) {
     if (tree->payload == x) {
@@ -33,7 +24,7 @@ Node *search_node(Node *tree, int x) {
   return NULL;
 }
 
-Node *bst_insert(Node *root, int key) {
+Node *insert_node(Node *root, int key) {
   if (!root)
     return create_node(key);
 
@@ -63,17 +54,15 @@ Node *find_min(Node *root) {
   return root;
 }
 
-/* Удаление узла. Возвращает новый корень поддерева. */
-Node *bst_delete(Node *root, int key) {
+Node *delete_node(Node *root, int key) {
   if (!root)
     return NULL;
 
   if (key < root->payload) {
-    root->left = bst_delete(root->left, key);
+    root->left = delete_node(root->left, key);
   } else if (key > root->payload) {
-    root->right = bst_delete(root->right, key);
+    root->right = delete_node(root->right, key);
   } else {
-    /* найден узел для удаления */
     if (!root->left) {
       Node *r = root->right;
       free(root);
@@ -83,37 +72,36 @@ Node *bst_delete(Node *root, int key) {
       free(root);
       return l;
     } else {
-      /* два потомка: заменить ключ на минимальный в правом поддереве */
       Node *succ = find_min(root->right);
       root->payload = succ->payload;
-      root->right = bst_delete(root->right, succ->payload);
+      root->right = delete_node(root->right, succ->payload);
     }
   }
   return root;
 }
 
-void inorder(Node *root, void (*visit)(int)) {
+void inorder(Node *root) {
   if (!root)
     return;
-  inorder(root->left, visit);
-  visit(root->payload);
-  inorder(root->right, visit);
+  inorder(root->left);
+  printf("%d ", root->payload);
+  inorder(root->right);
 }
 
-void preorder(Node *root, void (*visit)(int)) {
+void preorder(Node *root) {
   if (!root)
     return;
-  visit(root->payload);
-  preorder(root->left, visit);
-  preorder(root->right, visit);
+  printf("%d ", root->payload);
+  preorder(root->left);
+  preorder(root->right);
 }
 
-void postorder(Node *root, void (*visit)(int)) {
+void postorder(Node *root) {
   if (!root)
     return;
-  postorder(root->left, visit);
-  postorder(root->right, visit);
-  visit(root->payload);
+  postorder(root->left);
+  postorder(root->right);
+  printf("%d ", root->payload);
 }
 
 void free_tree(Node *root) {
@@ -137,5 +125,3 @@ Node *build_balanced_from_sorted_range(int start, int n) {
 Node *build_perfectly_balanced_tree(int n) {
   return build_balanced_from_sorted_range(1, n);
 }
-
-void print_key(int key) { printf("%d ", key); }
